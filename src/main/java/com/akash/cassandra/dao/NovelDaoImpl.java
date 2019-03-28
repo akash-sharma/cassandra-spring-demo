@@ -23,16 +23,11 @@ public class NovelDaoImpl implements NovelDao {
     @Autowired
     private Session session;
 
-    @Override
-    public void insert(Novel novel) {
-        cassandraTemplate.insert(novel);
-    }
-
     // query via spring template
     //select * from novel where category=?1 and author=?2
     @Override
     public List<Novel> findAllByCategoryAndAuthor(String category, String author) {
-        return cassandraTemplate.select(Query.query(Criteria.where("category").is(category))
+        return cassandraTemplate.select(Query.query( Criteria.where("category").is(category) )
                 .and(Criteria.where("author").is(author)), Novel.class);
     }
 
@@ -50,10 +45,20 @@ public class NovelDaoImpl implements NovelDao {
         return novels;
     }
 
-//   update novel set count=count+1 where category=? and author=? and genre=? and name=?
-    /*public void upsert(Novel novel) {
+    // update novel set count=count+1 where category=? and author=? and genre=? and name=?
+    @Override
+    public void upsert(Novel novel) {
         cassandraTemplate.update(
-                Query.query(Criteria.where("category").is(novel.getCategory())).and(Query.query(Criteria.where("author").is(novel.getAuthor())),
+                Query.query( Criteria.where("category").is(novel.getCategory()))
+                        .and(Criteria.where("author").is(novel.getAuthor()))
+                        .and(Criteria.where("genre").is(novel.getGenre()))
+                        .and(Criteria.where("name").is(novel.getName())),
                 Update.empty().increment("count"), Novel.class);
+    }
+
+    /*
+    INSERT statements are not allowed on counter tables, use UPDATE instead
+    public void insert(Novel novel) {
+        cassandraTemplate.insert(novel);
     }*/
 }

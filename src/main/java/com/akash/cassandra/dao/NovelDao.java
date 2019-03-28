@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface NovelDao {
 
-    void insert(Novel novel);
-
     List<Novel> findAllByCategoryAndAuthor(String category, String author);
 
     List<Novel> findGroupedGenreByCategoryAndAuthor(String category, String author);
+
+    void upsert(Novel novel);
 }
