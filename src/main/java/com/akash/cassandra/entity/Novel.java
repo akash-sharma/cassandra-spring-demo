@@ -1,0 +1,86 @@
+package com.akash.cassandra.entity;
+
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
+
+import static com.datastax.driver.core.DataType.Name.COUNTER;
+
+@Table
+public class Novel {
+
+    @PrimaryKeyColumn(name = "category", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
+    private String category;
+
+    @PrimaryKeyColumn(name = "author", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+    private String author;
+
+    @PrimaryKeyColumn(name = "genre", type = PrimaryKeyType.CLUSTERED, ordinal = 2)
+    private String genre;
+
+    @PrimaryKeyColumn(name = "name", type = PrimaryKeyType.CLUSTERED, ordinal = 3)
+    private String name;
+
+    @CassandraType(type=COUNTER)
+    private Long saleCount;
+
+    @Transient
+    private long count;
+
+    public Novel() { }
+
+    public Novel(String category, long count) {
+        this.category = category;
+        this.count = count;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public Long getSaleCount() {
+        return saleCount;
+    }
+
+    public void setSaleCount(Long saleCount) {
+        this.saleCount = saleCount;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+}

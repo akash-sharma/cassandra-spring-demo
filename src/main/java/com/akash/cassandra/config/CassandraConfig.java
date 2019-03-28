@@ -24,7 +24,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     private String basePackages;
 
     public SchemaAction getSchemaAction() {
-        return SchemaAction.CREATE_IF_NOT_EXISTS;
+        return SchemaAction.RECREATE_DROP_UNUSED;
     }
 
     @Override
@@ -40,6 +40,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     @Bean
     public CassandraClusterFactoryBean cluster() {
         CassandraClusterFactoryBean cluster = new CassandraClusterFactoryBean();
+        cluster.setJmxReportingEnabled(false);
         cluster.setContactPoints(contactPoints);
         cluster.setPort(port);
         return cluster;
