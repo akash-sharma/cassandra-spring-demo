@@ -32,6 +32,7 @@ public class NovelDaoImpl implements NovelDao {
     }
 
     // Native query via session
+    // Select genre,count(*) as count from Novel where category=?1 and author=?2 group by genre
     @Override
     public List<Novel> findGroupedGenreByCategoryAndAuthor(String category, String author) {
         String query = "Select genre,count(*) as count from Novel " +
@@ -39,7 +40,7 @@ public class NovelDaoImpl implements NovelDao {
         ResultSet rs = session.execute(query);
         List<Novel> novels = new ArrayList<Novel>();
         for (Row row : rs) {
-            Novel data = new Novel(row.getString("category"), row.getLong("count"));
+            Novel data = new Novel(row.getString("genre"), row.getLong("count"));
             novels.add(data);
         }
         return novels;
@@ -53,7 +54,7 @@ public class NovelDaoImpl implements NovelDao {
                         .and(Criteria.where("author").is(novel.getAuthor()))
                         .and(Criteria.where("genre").is(novel.getGenre()))
                         .and(Criteria.where("name").is(novel.getName())),
-                Update.empty().increment("count"), Novel.class);
+                Update.empty().increment("sale_count"), Novel.class);
     }
 
     /*

@@ -3,6 +3,7 @@ package com.akash.cassandra.entity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -24,16 +25,17 @@ public class Novel {
     private String name;
 
     @CassandraType(type=COUNTER)
+    @Column("sale_count")
     private Long saleCount;
 
     @Transient
-    private long count;
+    private long groupCount;
 
     public Novel() { }
 
-    public Novel(String category, long count) {
-        this.category = category;
-        this.count = count;
+    public Novel(String genre, long groupCount) {
+        this.genre = genre;
+        this.groupCount = groupCount;
     }
 
     public String getCategory() {
@@ -76,11 +78,18 @@ public class Novel {
         this.saleCount = saleCount;
     }
 
-    public long getCount() {
-        return count;
+    public long getGroupCount() {
+        return groupCount;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    @Override
+    public String toString() {
+        return "Novel{" +
+                "category='" + category + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", name='" + name + '\'' +
+                ", saleCount=" + saleCount +
+                '}';
     }
 }
